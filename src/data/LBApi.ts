@@ -44,7 +44,7 @@ export async function search(query: string, lat: number = 2.0, lng: number = 2.0
         return resBody as Array<BusinessInfo>
     } else {
         console.log('error during fetch: ' + JSON.stringify(resBody));
-        throw new Error('An internal error occured fetching results')
+        throw new Error('An internal error occurred fetching results')
     }
 }
 
@@ -69,6 +69,6 @@ export async function getBusinessDetails(businessId: string): Promise<BusinessIn
         return resBody as BusinessInfo
     } else {
         console.log('error during fetch: ' + JSON.stringify(resBody));
-        throw new Error('An internal error occured fetching results')
+        throw new Error('An internal error occurred fetching results')
     }
 }
