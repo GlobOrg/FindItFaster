@@ -1,5 +1,3 @@
-import {number} from "prop-types";
-
 export type BusinessInfo = {
     business_id: string;
     google_id: string;
@@ -23,7 +21,15 @@ export type BusinessInfo = {
     business_status: 'OPEN' | 'TEMPORARILY_CLOSED' | 'CLOSED'
 }
 
-export async function search(query: string, lat: number = 2.0, lng: number = 2.0, zoom: number = 10, limit: number = 10) {
+/**
+ *
+ * @param query the search query to perform
+ * @param lat latitude, defaults to
+ * @param lng
+ * @param zoom
+ * @param limit
+ */
+export async function search(query: string, lat: number = 53.40512, lng: number = -2.98366, zoom: number = 10, limit: number = 10) {
     const queryParam = encodeURIComponent(query);
 
     let target = `https://local-business-data.p.rapidapi.com/search?`
