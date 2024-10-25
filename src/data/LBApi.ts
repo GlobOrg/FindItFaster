@@ -1,3 +1,5 @@
+import {number} from "prop-types";
+
 export type BusinessInfo = {
     business_id: string;
     google_id: string;
@@ -41,6 +43,7 @@ export async function search(query: string, lat: number = 2.0, lng: number = 2.0
 
     const resBody = await res.json();
     if (res.ok) {
+        // TODO: Dispatch off work to ensure that we populate the DB with lookup link info
         return resBody as Array<BusinessInfo>
     } else {
         console.log('error during fetch: ' + JSON.stringify(resBody));
@@ -48,9 +51,21 @@ export async function search(query: string, lat: number = 2.0, lng: number = 2.0
     }
 }
 
-export async function getBusinessDetails(businessId: string): Promise<BusinessInfo> {
+/**
+ *
+ * @param businessId The business ID to lookup
+ * @returns returns the {@link BusinessInfo} if a business ID is found, or null
+ */
+export async function getBusinessDetails(businessId: string | number): Promise<BusinessInfo | null> {
+    let lookupBusinessId;
+    if (typeof businessId  == 'number') {
+        // TODO: Implement DB lookup
+    } else {
+        lookupBusinessId = businessId;
+    }
+
     let target = "https://local-business-data.p.rapidapi.com/business-details?"
-    target += `business_id=${businessId}`
+    target += `business_id=${lookupBusinessId}`
     target += `&language=en&region=gb&extract_emails_and_contacts=false&extract_share_link=false`
 
 
@@ -67,6 +82,8 @@ export async function getBusinessDetails(businessId: string): Promise<BusinessIn
     const resBody = await res.json();
     if (res.ok) {
         return resBody as BusinessInfo
+    } else if (res.status === 404) {
+        return null;
     } else {
         console.log('error during fetch: ' + JSON.stringify(resBody));
         throw new Error('An internal error occurred fetching results')
