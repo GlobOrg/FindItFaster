@@ -30,7 +30,7 @@ export function Search() {
         name="query"
         defaultValue={searchParams.get('query') != null ? decodeURIComponent(searchParams.get('query')!) : undefined}
         placeholder="search..."
-        className="bg-transparent outline-none"
+        className="bg-transparent outline-none dark:text-black"
     />
   </form>;
   <Image src="/search.png" alt="" width={5} height={5}/>
