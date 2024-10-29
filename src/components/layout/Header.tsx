@@ -67,7 +67,7 @@ export default function Header() {
               alt="About"
               width={6}
               height={6}
-              className="w-4 h-4"
+              className="w-4 h-4 dark:invert"
             />
             <span>About</span>
           </Link>
@@ -77,7 +77,7 @@ export default function Header() {
               alt="Business"
               width={6}
               height={6}
-              className="w-4 h-4"
+              className="w-4 h-4 dark:invert"
             />
             <span>Business</span>
           </Link>
