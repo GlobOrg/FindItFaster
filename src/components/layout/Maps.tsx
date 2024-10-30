@@ -1,27 +1,24 @@
 "use client";
 
-import React, {ReactNode} from "react";
+import React, { ReactNode } from "react";
 //import { Loader } from "@googlemaps/js-api-loader";
-import {AdvancedMarker, APIProvider, Map, Pin} from '@vis.gl/react-google-maps';
+import { AdvancedMarker, APIProvider, Map, Pin } from "@vis.gl/react-google-maps";
 
-export type Poi ={ key: string, location: google.maps.LatLngLiteral }
+export type Poi = { key: string; location: google.maps.LatLngLiteral };
 
-export const PoiMarkers = (props: {pois: Poi[]}) => {
+export const PoiMarkers = (props: { pois: Poi[] }) => {
     return (
         <>
-            {props.pois.map( (poi: Poi) => (
-                <AdvancedMarker
-                    key={poi.key}
-                    position={poi.location}>
-                    <Pin background={'#FBBC04'} glyphColor={'#000'} borderColor={'#000'} />
+            {props.pois.map((poi: Poi) => (
+                <AdvancedMarker key={poi.key} position={poi.location}>
+                    <Pin background={"#FBBC04"} glyphColor={"#000"} borderColor={"#000"} />
                 </AdvancedMarker>
             ))}
         </>
     );
 };
 
-
-export default function Maps({children}:  {children?: ReactNode}) {
+export default function Maps({ children }: { children?: ReactNode }) {
     //const mapRef = React.useRef<HTMLDivElement>(null);
 
     // useEffect(() => {
@@ -64,7 +61,6 @@ export default function Maps({children}:  {children?: ReactNode}) {
     return (
         <>
             <div>
-
                 {/* <iframe
                     src="https://storage.googleapis.com/maps-solutions-uben8x1wu5/neighborhood-discovery/85j4/neighborhood-discovery.html"
                     width="1000"
@@ -73,13 +69,13 @@ export default function Maps({children}:  {children?: ReactNode}) {
                     loading="eager"
                 ></iframe> */}
             </div>
-            <div style={{height: "600px", width: "1000px"}}>
+
+            <div className="flex flex-col h-4/6 w-screen">
                 <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOOGLE_API_KEY!}>
-                    <Map defaultZoom={13} defaultCenter={{lat: 53.40468, lng: -2.98034}} mapId={"HOME_MAP"}>
+                    <Map defaultZoom={13} defaultCenter={{ lat: 53.40468, lng: -2.98034 }} mapId={"HOME_MAP"}>
                         {children}
                     </Map>
                 </APIProvider>
-
             </div>
         </>
     );
