@@ -20,8 +20,8 @@ export default function Maps() {
             const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
             const position = {
-                lat: 43.642693,
-                lng: -79.3871189,
+                lat: 53.400002,
+                lng: -2.983333,
             };
 
             //map options

@@ -4,6 +4,10 @@ import { Image, Link } from "@chakra-ui/react";
 import MobileMenu from "./MobileMenu";
 import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { redirect, useSearchParams } from "next/navigation";
+import { FaPerson } from "react-icons/fa6";
+import { FcAbout } from "react-icons/fc";
+import { IoBusiness } from "react-icons/io5";
+import { AiOutlineRobot } from "react-icons/ai";
 
 export function Search() {
     const searchParams = useSearchParams();
@@ -41,25 +45,21 @@ export default function Header() {
         <div className="h-24 flex items-center justify-between">
             {/* LEFT */}
             <div className="md:hidden lg:block w-[20%]">
-                <Link href="/" className="font-bold text-xl text-blue-600">
-                    🚀 FinditFaster
+                <Link href="/" className="font-bold text-xl text-black">
+                    FinditFaster
                 </Link>
             </div>
             {/* CENTER */}
             <div className="hidden md:flex w-[50%] text-sm items-center justify-between">
                 {/* LINKS */}
-                <div className="flex gap-6 light:text-gray-600">
-                    <Link href="/" className="flex items-center gap-2">
-                        <Image src="/home.png" alt="Homepage" width={6} height={6} className="w-4 h-4" />
-                        <span>Home</span>
-                    </Link>
+                <div className="flex gap-6 text-white light:text-gray-600">
                     <Link href="/about" className="flex items-center gap-2">
-                        <Image src="/about.png" alt="About" width={6} height={6} className="w-4 h-4" />
-                        <span>About</span>
+                        {<AiOutlineRobot title="about us" className="text-cyan-900" />}
+                        <span className="text-cyan-950">About</span>
                     </Link>
                     <Link href="/search" className="flex items-center gap-2">
-                        <Image src="/business.png" alt="Business" width={6} height={6} className="w-4 h-4" />
-                        <span>Business</span>
+                        <IoBusiness title="Businesses" className="text-cyan-950" />
+                        <span className="text-cyan-950">Business</span>
                     </Link>
                 </div>
                 <div className="hidden xl:flex p-2 bg-slate-100 items-center rounded-xl">
@@ -75,16 +75,11 @@ export default function Header() {
                 </ClerkLoading>
                 <ClerkLoaded>
                     <SignedIn>
-                        <div className="cursor-pointer text-cyan-950">
-                            <Image src="/people.png" alt="" width={6} height={6} />
-                        </div>
-                        <div className="cursor-pointer">
-                            <Image src="/messages.png" alt="" width={5} height={5} />
-                        </div>
-                        <div className="cursor-pointer">
-                            <Image src="/notifications.png" alt="" width={6} height={6} />
-                        </div>
-                        <UserButton />
+                        <UserButton>
+                            <UserButton.MenuItems>
+                                <UserButton.Link href={"/profile"} label={"Manage Profile"} labelIcon={<FaPerson />} />
+                            </UserButton.MenuItems>
+                        </UserButton>
                     </SignedIn>
                     <SignedOut>
                         <div className="flex items-center gap-2 text-sm">
