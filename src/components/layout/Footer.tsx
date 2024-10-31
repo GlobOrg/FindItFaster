@@ -31,13 +31,13 @@ export default async function Footer() {
             id: "2",
             name: "Michelle Ratcliffe",
             git: "https://github.com/michelleratcliffe",
-            avatar: "/MichelleAvatar.png",
+            avatar: "/michelleAvatar.webp",
         },
         {
             id: "3",
             name: "Lewis Allen",
             git: "https://github.com/Lewis-Allen-2001",
-            avatar: "/LewisAvatar.webp",
+            avatar: "/LewisAvatar.png",
         },
     ];
 
