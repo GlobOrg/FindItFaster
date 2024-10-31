@@ -4,6 +4,9 @@ import { Image, Link } from "@chakra-ui/react";
 import MobileMenu from "./MobileMenu";
 import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { redirect, useSearchParams } from "next/navigation";
+import { FaPerson } from "react-icons/fa6";
+import { IoBusiness } from "react-icons/io5";
+import { AiOutlineRobot } from "react-icons/ai";
 
 export function Search() {
     const searchParams = useSearchParams();
@@ -38,28 +41,25 @@ export function Search() {
 
 export default function Header() {
     return (
-        <div className="h-24 flex items-center justify-between">
+        <div className="h-24 flex items-center justify-between bg-teal-700">
             {/* LEFT */}
             <div className="md:hidden lg:block w-[20%]">
-                <Link href="/" className="font-bold text-xl text-blue-600">
-                    🚀 FinditFaster
+                <Link href="/" className="font-bold text-xl text-black">
+                    FinditFaster
                 </Link>
             </div>
             {/* CENTER */}
             <div className="hidden md:flex w-[50%] text-sm items-center justify-between">
                 {/* LINKS */}
-                <div className="flex gap-6 light:text-gray-600">
-                    <Link href="/" className="flex items-center gap-2">
-                        <Image src="/home.png" alt="Homepage" width={6} height={6} className="w-4 h-4" />
-                        <span>Home</span>
-                    </Link>
+
+                <div className="flex gap-6 text-white light:text-black text-md">
                     <Link href="/about" className="flex items-center gap-2">
-                        <Image src="/about.png" alt="About" width={6} height={6} className="w-4 h-4" />
-                        <span>About</span>
+                        {<AiOutlineRobot title="about us" className="text-white" />}
+                        <span className="text-cyan-950">About</span>
                     </Link>
                     <Link href="/search" className="flex items-center gap-2">
-                        <Image src="/business.png" alt="Business" width={6} height={6} className="w-4 h-4" />
-                        <span>Business</span>
+                        <IoBusiness title="Search" className="text-white" />
+                        <span className="text-cyan-950">Business</span>
                     </Link>
                 </div>
                 <div className="hidden xl:flex p-2 bg-slate-100 items-center rounded-xl">
@@ -69,22 +69,17 @@ export default function Header() {
                 </div>
             </div>
             {/* RIGHT */}
-            <div className="w-[30%] flex items-center gap-1 md:gap-4 lg:gap-6 xl:gap-8 justify-end">
+            <div className="w-[30%] flex items-center gap-1 md:gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 justify-end">
                 <ClerkLoading>
                     <div className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-gray-500 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" />
                 </ClerkLoading>
                 <ClerkLoaded>
                     <SignedIn>
-                        <div className="cursor-pointer text-cyan-950">
-                            <Image src="/people.png" alt="" width={6} height={6} />
-                        </div>
-                        <div className="cursor-pointer">
-                            <Image src="/messages.png" alt="" width={5} height={5} />
-                        </div>
-                        <div className="cursor-pointer">
-                            <Image src="/notifications.png" alt="" width={6} height={6} />
-                        </div>
-                        <UserButton />
+                        <UserButton>
+                            <UserButton.MenuItems>
+                                <UserButton.Link href={"/profile"} label={"Manage Profile"} labelIcon={<FaPerson />} />
+                            </UserButton.MenuItems>
+                        </UserButton>
                     </SignedIn>
                     <SignedOut>
                         <div className="flex items-center gap-2 text-sm">
