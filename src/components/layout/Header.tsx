@@ -43,14 +43,15 @@ export default function Header() {
     return (
         <div className="h-24 flex items-center justify-between bg-teal-700">
             {/* LEFT */}
-            <div className="px-5">
-                <Link href="/" className="font-bold text-2xl text-black">
+            <div className="md:hidden lg:block w-[20%]">
+                <Link href="/" className="font-bold text-xl text-black">
                     FinditFaster
                 </Link>
             </div>
             {/* CENTER */}
             <div className="hidden md:flex w-[50%] text-sm items-center justify-between">
                 {/* LINKS */}
+
                 <div className="flex gap-6 text-white light:text-black text-md">
                     <Link href="/about" className="flex items-center gap-2">
                         {<AiOutlineRobot title="about us" className="text-white" />}

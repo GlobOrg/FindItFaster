@@ -18,7 +18,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "🚀 Find It Fast",
+    title: "Find It Faster",
     description: "Faster than the other guys",
 };
 
