@@ -19,10 +19,9 @@ export const PoiMarkers = (props: { pois: Poi[] }) => {
 };
 
 export default function Maps({ children }: { children?: ReactNode }) {
-
     return (
         <>
-            <div className="flex flex-col h-4/6 w-screen">
+            <div className="flex flex-col h-svh w-screen">
                 <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOOGLE_API_KEY!}>
                     <Map defaultZoom={13} defaultCenter={{ lat: 53.40468, lng: -2.98034 }} mapId={"HOME_MAP"}>
                         {children}

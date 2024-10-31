@@ -16,14 +16,19 @@ export default function BusinessCard({ business }: { business: Business }) {
             ? business.logo
             : StoreFront;
 
-    const isLogo =
-        business.logo != null ? <img src={logo} alt={name} /> : <img src="/iconlogo.png" alt="Replacement Icon" />;
+    const isLogo = business.logo != null ? business.logo : "/iconlogo.png";
 
     return (
         <Card.Root maxW="xl" overflow="hidden" m={10}>
             <NextImage src={img} alt="" width={573} height={413} />
             <CardHeader className="flex flex-row items-center gap-2">
-                <div className="size-10 rounded-md">{isLogo}</div>
+                <NextImage
+                    src={isLogo}
+                    className="size-10 rounded-full"
+                    width={40}
+                    height={40}
+                    alt={business.name}
+                ></NextImage>
                 <Badge>{name}</Badge>
             </CardHeader>
             <Card.Body gap="2">
@@ -35,20 +40,15 @@ export default function BusinessCard({ business }: { business: Business }) {
                 <Text textStyle="md" fontWeight="light" letterSpacing="tight" mt="2">
                     {location}
                 </Text>
-                <Text textStyle="md" fontWeight="light" letterSpacing="tight" mt="2">
-                    {street_address}
-                </Text>
-                <Text textStyle="md" fontWeight="light" letterSpacing="tight" mt="2">
-                    {zipcode}
-                </Text>
-                <Text fontWeight="bold" mb="2">
+
+                <Text fontWeight="bold" mb="2" textAlign="center">
                     Opening Hours:
                 </Text>
                 {hours && (
-                    <Stack>
+                    <Stack textAlign="center">
                         {(Object.keys(hours) as Array<keyof Hours>).map((day) => (
                             <Text key={day} textStyle="sm" fontWeight="light" letterSpacing="tight">
-                                {day} {(hours[day] as string[]).map((hour) => hour)}
+                                {day}: {(hours[day] as string[]).map((hour) => hour)}
                             </Text>
                         ))}
                     </Stack>
