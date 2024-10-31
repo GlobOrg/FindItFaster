@@ -11,6 +11,9 @@ const config: Config = {
             colors: {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
+                michelle: "#202226",
+                shaneypie: "#7FOB10",
+                lewis: "#6A843C",
             },
         },
     },
