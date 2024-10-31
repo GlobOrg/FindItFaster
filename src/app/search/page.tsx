@@ -1,25 +1,34 @@
-import React from 'react';
-import {db} from "@/util/db";
+import React from "react";
+import { db } from "@/util/db";
 import SearchComponentBox from "@/components/SearchComponentBox";
-import {mapToNumeric} from "@/util/ArrayUtils";
+import { mapToNumeric } from "@/util/ArrayUtils";
 import BusinessEntryList from "@/components/BusinessEntryList";
 import PaginationComponent from "@/components/PaginationComponent";
 
-export default async function Page({searchParams}: {
+export default async function Page({
+    searchParams,
+}: {
     searchParams: Promise<{
-        query?: string | null,
-        category?: string | null,
-        location?: string | null,
-        page?: string | null
-    }>
+        query?: string | null;
+        category?: string | null;
+        location?: string | null;
+        page?: string | null;
+    }>;
 }) {
     const resolvedSearch = await searchParams;
     try {
-        const categoryIds = resolvedSearch.category != null && resolvedSearch.category.length > 0 ? mapToNumeric(resolvedSearch.category.split(',')) : null;
-        const locationIds = resolvedSearch.location != null && resolvedSearch.location.length > 0 ? mapToNumeric(resolvedSearch.location.split(',')) : null;
+        const categoryIds =
+            resolvedSearch.category != null && resolvedSearch.category.length > 0
+                ? mapToNumeric(resolvedSearch.category.split(","))
+                : null;
+        const locationIds =
+            resolvedSearch.location != null && resolvedSearch.location.length > 0
+                ? mapToNumeric(resolvedSearch.location.split(","))
+                : null;
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const pageNum = resolvedSearch.page != null && !isNaN(Number(resolvedSearch.page)) ? Number(resolvedSearch.page) : 1;
+        const pageNum =
+            resolvedSearch.page != null && !isNaN(Number(resolvedSearch.page)) ? Number(resolvedSearch.page) : 1;
 
         let hasInjectedWhere = false;
         const queryParams = [];
@@ -56,7 +65,6 @@ export default async function Page({searchParams}: {
                 sql += ` WHERE city = ANY($1::int[])`;
             }
             queryParams.push(locationIds);
-
         }
 
         if (resolvedSearch.query != null) {
@@ -68,27 +76,29 @@ export default async function Page({searchParams}: {
             queryParams.push(`%${resolvedSearch.query.toLowerCase()}%`);
         }
 
+        sql += ` GROUP BY business.id`;
+
         const searchRes = await db().query(sql, queryParams);
 
         const locations = await db().query<{
-            id: number,
-            location_name: string,
-            country: string
+            id: number;
+            location_name: string;
+            country: string;
         }>("SELECT id, location_name, country FROM biz_locations");
-        const categories = await db().query<{ id: number, name: string }>("SELECT id, name FROM biz_category");
-
+        const categories = await db().query<{ id: number; name: string }>("SELECT id, name FROM biz_category");
 
         const startPos = (pageNum - 1) * 10;
         const results = searchRes.rows.slice(startPos, startPos + 10);
 
-
         return (
             <div>
-                <div className={"flex flex-row"}>
-                    <div><SearchComponentBox locations={locations.rows} categories={categories.rows}/></div>
-                    <div>
-                        <BusinessEntryList entries={results}/>
-                        <PaginationComponent itemCount={searchRes.rows.length} itemsPerPage={10}/>
+                <div className={"grid grid-cols-4 gap-4"}>
+                    <div className="ml-10 gap-4">
+                        <SearchComponentBox locations={locations.rows} categories={categories.rows} />
+                    </div>
+                    <div className={"col-start-2 col-end-5 m-6"}>
+                        <BusinessEntryList entries={results} />
+                        <PaginationComponent itemCount={searchRes.rows.length} itemsPerPage={10} />
                     </div>
                 </div>
             </div>
