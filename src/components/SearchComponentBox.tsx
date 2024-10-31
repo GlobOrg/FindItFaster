@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Category } from "@/util/db";
-import { AbsoluteCenter, Link, Stack, Text } from "@chakra-ui/react";
+import { Link, Stack, Text } from "@chakra-ui/react";
 import { AccordionItem, AccordionItemContent, AccordionItemTrigger, AccordionRoot } from "@/components/ui/accordion";
 import { HiCursorClick } from "react-icons/hi";
 
@@ -126,7 +126,7 @@ export default function SearchComponentBox({
                         Categories:{" "}
                     </Text>
                     <AccordionRoot value={value} onValueChange={(e) => setValue(e.value)} className="text-sm">
-                        {Array.from(sortedCatMap.entries()).map((catKey, index) => (
+                        {Array.from(sortedCatMap.entries()).map((catKey) => (
                             <AccordionItem key={catKey[0]} value={catKey[0]} className="">
                                 <AccordionItemTrigger className="flex items-center">
                                     <span className="flex-grow">{catKey[0]}</span>
