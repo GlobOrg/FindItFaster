@@ -1,11 +1,14 @@
 import React from "react";
-import { Button, CardHeader, CardFooter, Card, Text, Stack, Badge } from "@chakra-ui/react";
+import { CardHeader, Card, Text, Stack, Badge } from "@chakra-ui/react";
 import { Business, Hours } from "@/util/db";
 import NextImage from "next/image";
 import StoreFront from "@/../public/StoreFront.webp";
+import { FcTouchscreenSmartphone } from "react-icons/fc";
+import { FcGlobe } from "react-icons/fc";
+import { FcBusiness } from "react-icons/fc";
 
 export default function BusinessCard({ business }: { business: Business }) {
-    const { name, location, website, phone, logo, street_address, zipcode, hours } = business;
+    const { name, location, website, phone, hours } = business;
 
     const img =
         business.image_large != null
@@ -29,23 +32,40 @@ export default function BusinessCard({ business }: { business: Business }) {
                     height={40}
                     alt={business.name}
                 ></NextImage>
-                <Badge>{name}</Badge>
+                <Badge fontSize={20} p={3} mx={5} colorPalette="teal">
+                    {name}
+                </Badge>
             </CardHeader>
             <Card.Body gap="2">
-                <Card.Title>{website}</Card.Title>
+                <div>
+                    {website && (
+                        <Text className="flex flex-row">
+                            <span>
+                                <FcGlobe size={23} />
+                            </span>
+                            <span className="ml-5">{website}</span>
+                        </Text>
+                    )}
+                </div>
 
-                <Text textStyle="md" fontWeight="light" letterSpacing="tight" mt="2">
-                    {phone}
+                <Text textStyle="md" fontWeight="light" letterSpacing="tight" mt="2" className="flex flex-row">
+                    <span>
+                        <FcTouchscreenSmartphone size={23} />
+                    </span>
+                    <span className="ml-5">Phone: {phone}</span>
                 </Text>
-                <Text textStyle="md" fontWeight="light" letterSpacing="tight" mt="2">
-                    {location}
+                <Text textStyle="md" fontWeight="light" letterSpacing="tight" mt="2" className="flex flex-row">
+                    <span>
+                        <FcBusiness size={23} />
+                    </span>
+                    <span className="ml-5">Address: {location}</span>
                 </Text>
 
-                <Text fontWeight="bold" mb="2" textAlign="center">
-                    Opening Hours:
-                </Text>
                 {hours && (
-                    <Stack textAlign="center">
+                    <Stack textAlign="center" mt={10}>
+                        <Text fontWeight="bold" mb="2" textAlign="center">
+                            Opening Hours:
+                        </Text>
                         {(Object.keys(hours) as Array<keyof Hours>).map((day) => (
                             <Text key={day} textStyle="sm" fontWeight="light" letterSpacing="tight">
                                 {day}: {(hours[day] as string[]).map((hour) => hour)}
@@ -54,17 +74,6 @@ export default function BusinessCard({ business }: { business: Business }) {
                     </Stack>
                 )}
             </Card.Body>
-            <CardFooter gap="2">
-                <Button variant="subtle" colorPalette="blue" flex="1">
-                    Like
-                </Button>
-                <Button variant="ghost" colorPalette="pink" flex="1">
-                    Review
-                </Button>
-                <Button className="bg-red-500" variant="solid" colorPalette="yellow" flex="1">
-                    Delete
-                </Button>
-            </CardFooter>
         </Card.Root>
     );
 }
