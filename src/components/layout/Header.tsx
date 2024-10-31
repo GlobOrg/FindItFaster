@@ -41,7 +41,7 @@ export function Search() {
 
 export default function Header() {
     return (
-        <div className="h-24 flex items-center justify-between">
+        <div className="h-24 flex items-center justify-between bg-teal-700">
             {/* LEFT */}
             <div className="md:hidden lg:block w-[20%]">
                 <Link href="/" className="font-bold text-xl text-black">
@@ -51,13 +51,14 @@ export default function Header() {
             {/* CENTER */}
             <div className="hidden md:flex w-[50%] text-sm items-center justify-between">
                 {/* LINKS */}
-                <div className="flex gap-6 text-white light:text-gray-600">
+
+                <div className="flex gap-6 text-white light:text-black text-md">
                     <Link href="/about" className="flex items-center gap-2">
-                        {<AiOutlineRobot title="about us" className="text-cyan-900" />}
+                        {<AiOutlineRobot title="about us" className="text-white" />}
                         <span className="text-cyan-950">About</span>
                     </Link>
                     <Link href="/search" className="flex items-center gap-2">
-                        <IoBusiness title="Businesses" className="text-cyan-950" />
+                        <IoBusiness title="Search" className="text-white" />
                         <span className="text-cyan-950">Business</span>
                     </Link>
                 </div>
@@ -68,7 +69,7 @@ export default function Header() {
                 </div>
             </div>
             {/* RIGHT */}
-            <div className="w-[30%] flex items-center gap-1 md:gap-4 lg:gap-6 xl:gap-8 justify-end">
+            <div className="w-[30%] flex items-center gap-1 md:gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 justify-end">
                 <ClerkLoading>
                     <div className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-gray-500 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" />
                 </ClerkLoading>

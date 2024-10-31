@@ -32,12 +32,10 @@ export default function RootLayout({
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning={true}>
                 <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
                     <Provider>
-                        <div className="w-full bg-slate-500 dark:bg-emerald-300 md:px8 lg:px-16 xl:px32 2xl:px64">
+                        <div className="w-full">
                             <Header />
                         </div>
-                        <div className="w-full px-4 bg-white dark:bg-slate-600 md:px8 lg:px-16 xl:px32 2xl:px64">
-                            {children}
-                        </div>
+                        <div className="w-full">{children}</div>
                         <Footer />
                     </Provider>
                 </ClerkProvider>
