@@ -40,10 +40,10 @@ export async function createCommentAction(id: number, data: ReviewFormData): Pro
     if (!userId) {
         return {success: false, error: "You are not authenticated"};
     }
-    console.log([id, userId, data.comment, data.review])
 
-    const res = await db().query("INSERT INTO biz_reviews (business, user_id, comment, review) VALUES ($1, (SELECT id FROM biz_users WHERE clerk = $2), $3, $4)", [id, userId, data.comment, data.review]);
+    const res = await db().query("INSERT INTO biz_reviews (business, user_id, comment, review) VALUES ($1, (SELECT id FROM biz_users WHERE clerk = $2), $3, $4)", [id, userId, data.comment, data.review[0]]);
     if (res.rowCount === 1) {
+        revalidatePath("/");
         return {success: true};
     }
 
