@@ -4,6 +4,11 @@ import {db, User} from "@/util/db";
 import {auth} from "@clerk/nextjs/server";
 import {revalidatePath} from "next/cache";
 
+export type ReviewFormData = {
+    review: string[],
+    comment: string
+}
+
 export async function deleteCommentAction(id: number): Promise<boolean> {
     const {userId} = await auth();
     if (!userId) {
@@ -27,9 +32,20 @@ export async function deleteCommentAction(id: number): Promise<boolean> {
     return false;
 }
 
-export async function createCommentAction(data: FormData): Promise<boolean> {
-    console.log(Object.fromEntries(data));
-    return false;
+export async function createCommentAction(id: number, data: ReviewFormData): Promise<{
+    success: boolean,
+    error?: string
+}> {
+    const {userId} = await auth();
+    if (!userId) {
+        return {success: false, error: "You are not authenticated"};
+    }
+    console.log([id, userId, data.comment, data.review])
 
+    const res = await db().query("INSERT INTO biz_reviews (business, user_id, comment, review) VALUES ($1, (SELECT id FROM biz_users WHERE clerk = $2), $3, $4)", [id, userId, data.comment, data.review]);
+    if (res.rowCount === 1) {
+        return {success: true};
+    }
 
+    return {success: false, error: "An unknown state occurred"};
 }

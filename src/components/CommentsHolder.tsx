@@ -11,7 +11,7 @@ import {
     Stack,
     Text, Textarea
 } from "@chakra-ui/react";
-import React from "react";
+import {FormEvent, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Avatar} from "@/components/ui/avatar";
 import {useAuth} from "@clerk/clerk-react";
@@ -24,6 +24,8 @@ import {
     SelectTrigger,
     SelectValueText,
 } from "@/components/ui/select";
+import {ValueChangeDetails} from "@zag-js/select";
+import {ReviewFormData} from "@/actions/actions";
 
 export type Comment = {
     id: number;
@@ -44,13 +46,74 @@ const ratings = createListCollection({
     ]
 });
 
-export default function CommentsHolder({createAction, comments, deleteAction}: {
-    createAction?: (data: FormData) => void,
+export default function CommentsHolder({comments, deleteAction, createAction, businessId}: {
     comments: Array<Comment>,
     deleteAction?: (id: number) => Promise<boolean>
+    createAction?: (id: number, data: ReviewFormData) => Promise<{ success: boolean, error?: string }>,
+    businessId?: number
 }) {
+    if (createAction && businessId == undefined) {
+        throw new Error("Cannot define a create action without a business ID")
+    }
+
     const {userId} = useAuth();
-    const [showForm, setShowForm] = React.useState(false);
+    const [showForm, setShowForm] = useState(false);
+    const [formData, setFormData] = useState<{ review: string[], comment: string }>({review: [], comment: ""});
+    const [submitting, setSubmitting] = useState(false);
+    const [valueSelectorInvalid, setValueSelectorInvalid] = useState(false);
+    const [errorString, setErrorString] = useState<null|string>(null);
+
+    function handleSelectorChange(details: ValueChangeDetails) {
+        setFormData(prev => {
+            return {
+                ...prev,
+                review: details.value
+            };
+        });
+
+    }
+
+    function handleFormChange(e: FormEvent<HTMLInputElement|HTMLTextAreaElement>) {
+        const target = e.target as HTMLInputElement|HTMLTextAreaElement
+        setFormData(prev => {
+            return {
+                ...prev,
+                [target.name]: target.value
+            };
+        });
+    }
+
+    async function handleSubmission(e: FormEvent) {
+        e.preventDefault()
+        setSubmitting(true);
+        if (!businessId) {
+            return;
+        }
+        try {
+            if (formData.review.length == 0) {
+                setValueSelectorInvalid(true)
+                setErrorString("You must select a review")
+                return;
+            } else {
+                if (valueSelectorInvalid) {
+                    setValueSelectorInvalid(false)
+                    setErrorString(null)
+                }
+            }
+
+            const res = await createAction!(businessId, formData);
+            if (res.success) {
+                // notification?
+            } else if (res.error != null) {
+                setErrorString(res.error);
+            }
+        } finally {
+            setSubmitting(false)
+        }
+    }
+
+    console.log(formData);
+
     return (
         <>
             <CardRoot maxW="xl" overflow="hidden" m={10}>
@@ -60,16 +123,19 @@ export default function CommentsHolder({createAction, comments, deleteAction}: {
                 </CardHeader>
                 {showForm && (
                     <CardBody>
-                        <form action={createAction}>
+                        <form onSubmit={handleSubmission}>
                             <Fieldset.Root>
                                 <FieldsetRoot>
                                     <FieldsetLegend>What did you think about business?</FieldsetLegend>
                                 </FieldsetRoot>
                                 <Fieldset.Content>
                                     <Field label="About your stay">
-                                        <Textarea name={"comment"}></Textarea>
+                                        <Textarea name={"comment"} value={formData.comment} onChange={handleFormChange}></Textarea>
                                     </Field>
-                                    <SelectRoot collection={ratings}>
+                                </Fieldset.Content>
+                                <Fieldset.Content>
+                                    <SelectRoot collection={ratings} value={formData.review} invalid={valueSelectorInvalid}
+                                                onValueChange={handleSelectorChange}>
                                         <SelectLabel>Rating</SelectLabel>
                                         <SelectTrigger>
                                             <SelectValueText placeholder={"rating"}/>
@@ -83,7 +149,10 @@ export default function CommentsHolder({createAction, comments, deleteAction}: {
                                     </SelectRoot>
                                 </Fieldset.Content>
                             </Fieldset.Root>
-                            <Button type={"submit"}>Submit</Button>
+                            {errorString && (
+                                <Fieldset.ErrorText>{errorString}</Fieldset.ErrorText>
+                            )}
+                            <Button loading={submitting} type={"submit"}>Submit</Button>
                         </form>
                     </CardBody>
                 )}

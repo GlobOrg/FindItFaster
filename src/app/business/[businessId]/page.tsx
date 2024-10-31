@@ -87,7 +87,7 @@ export default async function businessPage({params}: { params: Promise<{ busines
                 {cardInfo.map((data) => {
                     return <BusinessCard key={data.id} business={data}/>;
                 })}
-                <CommentsHolder comments={comments} deleteAction={deleteCommentAction} createAction={userId ? createCommentAction : undefined}/>
+                <CommentsHolder comments={comments} deleteAction={deleteCommentAction} createAction={userId ? createCommentAction : undefined} businessId={businessId} />
             </SimpleGrid>
         </Container>
     );
