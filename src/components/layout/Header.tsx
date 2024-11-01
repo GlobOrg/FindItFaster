@@ -5,8 +5,6 @@ import MobileMenu from "./MobileMenu";
 import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { redirect, useSearchParams } from "next/navigation";
 import { FaPerson } from "react-icons/fa6";
-import { IoBusiness } from "react-icons/io5";
-import { AiOutlineRobot } from "react-icons/ai";
 
 export function Search() {
     const searchParams = useSearchParams();
@@ -41,25 +39,29 @@ export function Search() {
 
 export default function Header() {
     return (
-        <div className="h-24 flex items-center justify-between bg-teal-700">
+        <div className="h-24 flex items-center justify-between bg-michelle text-white">
             {/* LEFT */}
             <div className="md:hidden lg:block w-[20%]">
                 <Link href="/" className="font-bold text-xl text-black">
-                    FinditFaster
+                    <Image
+                        src="/finditfaster-logo-h.png"
+                        height={100}
+                        width={200}
+                        alt="Find it Faster Logo"
+                        className="ml-10"
+                    />
                 </Link>
             </div>
             {/* CENTER */}
             <div className="hidden md:flex w-[50%] text-sm items-center justify-between">
                 {/* LINKS */}
 
-                <div className="flex gap-6 text-white light:text-black text-md">
-                    <Link href="/about" className="flex items-center gap-2">
-                        {<AiOutlineRobot title="about us" className="text-white" />}
-                        <span className="text-cyan-950">About</span>
+                <div className="flex gap-6 text-white text-md">
+                    <Link href="/about" className="flex items-center gap-2 text-lg">
+                        <span>About</span>
                     </Link>
                     <Link href="/search" className="flex items-center gap-2">
-                        <IoBusiness title="Search" className="text-white" />
-                        <span className="text-cyan-950">Business</span>
+                        <span className="text-lg">Business</span>
                     </Link>
                 </div>
                 <div className="hidden xl:flex p-2 bg-slate-100 items-center rounded-xl">

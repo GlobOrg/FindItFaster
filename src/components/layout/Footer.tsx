@@ -42,13 +42,19 @@ export default async function Footer() {
     ];
 
     return (
-        <div className="grid grid-cols-4 gap-2 p-6 justify-evenly items-start bg-teal-700">
+        <div className="grid grid-cols-4 gap-2 p-6 justify-evenly items-center bg-michelle">
             <div>
-                <Image src="/LogoTrans.png" width={100} height={40} alt="Find if Faster Logo" />
+                <Image
+                    src="/finditfaster-logo-f.png"
+                    height={150}
+                    width={300}
+                    alt="Find it Faster Logo"
+                    className="content-center"
+                />
             </div>
 
             <div>
-                <h2 className="text-black">Popular Categories:</h2>
+                <h2 className="text-shaneypie text-2xl">Popular Categories:</h2>
                 {categories.rows.map((category) => (
                     <p key={category.id} className="text-sm pt-3">
                         <Link href={`/search?category=${category.id}`}>{category.name}</Link>
@@ -56,7 +62,7 @@ export default async function Footer() {
                 ))}
             </div>
             <div>
-                <h1 className="text-black text-lg">Popular Location:</h1>
+                <h1 className="text-shaneypie text-2xl">Popular Location:</h1>
                 {locations.rows.map((location) => (
                     <p key={location.id} className="text-sm pt-3">
                         <Link href={`/search?location=${location.id}`}>
