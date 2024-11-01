@@ -22,7 +22,7 @@ export default function BusinessEntry({ business }: { business: Business & Locat
     return (
         <>
             <div onClick={navigate}>
-                <CardRoot flexDirection={"row"} marginBottom={1}>
+                <CardRoot flexDirection={"row"} marginBottom={1} className={"cursor-pointer"}>
                     <Image width={128} height={128} src={img} alt={business.name} />
                     <Box ml={2}>
                         <Card.Title mb={2}>{business.name}</Card.Title>
