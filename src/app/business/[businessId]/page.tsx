@@ -1,11 +1,11 @@
 import React from "react";
-import { SimpleGrid, Container } from "@chakra-ui/react";
+import {SimpleGrid, Container} from "@chakra-ui/react";
 import BusinessCard from "@/components/cards/BusinessCard";
-import { Business, db, Review, User } from "@/util/db";
-import { notFound } from "next/navigation";
-import CommentsHolder, { Comment } from "@/components/CommentsHolder";
-import { auth, clerkClient } from "@clerk/nextjs/server";
-import { createCommentAction, deleteCommentAction } from "@/actions/actions";
+import {Business, db, Review, User} from "@/util/db";
+import {notFound} from "next/navigation";
+import CommentsHolder, {Comment} from "@/components/CommentsHolder";
+import {auth, clerkClient} from "@clerk/nextjs/server";
+import {createCommentAction, deleteCommentAction} from "@/actions/actions";
 
 export async function getImageForClerk(clerk: string): Promise<string> {
     const client = await clerkClient();
@@ -13,7 +13,7 @@ export async function getImageForClerk(clerk: string): Promise<string> {
     return userInfo.imageUrl;
 }
 
-export default async function businessPage({ params }: { params: Promise<{ businessId: string }> }) {
+export default async function businessPage({params}: { params: Promise<{ businessId: string }> }) {
     const pageParams = await params;
     const businessId = !isNaN(Number(pageParams.businessId)) ? Number(pageParams.businessId) : null;
 
@@ -53,7 +53,7 @@ export default async function businessPage({ params }: { params: Promise<{ busin
     const cardInfo = biz_businesses.rows;
 
     //const client = await clerkClient()
-    const { userId } = await auth();
+    const {userId} = await auth();
 
     const res = await db().query<Review & User & { id: number }> /* language=PostgreSQL */(
         ` SELECT review.id,
@@ -62,8 +62,9 @@ export default async function businessPage({ params }: { params: Promise<{ busin
                  review.comment,
                  review.review
           FROM biz_reviews review
-                   INNER JOIN biz_users usr ON review.user_id = usr.id`
-    );
+                   INNER JOIN biz_users usr ON review.user_id = usr.id
+                   INNER JOIN biz_businesses ON review.business = biz_businesses.id
+          WHERE biz_businesses.id = $1`, [businessId]);
 
     const commentsMap: Array<Promise<Comment>> = res.rows.map(async (result) => {
         const comment: Comment = {
@@ -86,7 +87,7 @@ export default async function businessPage({ params }: { params: Promise<{ busin
         <Container maxW="80rem" centerContent>
             <SimpleGrid className="gap-4 min-w-6">
                 {cardInfo.map((data) => {
-                    return <BusinessCard key={data.id} business={data} />;
+                    return <BusinessCard key={data.id} business={data}/>;
                 })}
                 <CommentsHolder
                     comments={comments}
