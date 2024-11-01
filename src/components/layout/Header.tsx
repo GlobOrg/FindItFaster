@@ -28,7 +28,7 @@ export function Search() {
                         searchParams.get("query") != null ? decodeURIComponent(searchParams.get("query")!) : undefined
                     }
                     placeholder="search..."
-                    className="bg-transparent outline-none"
+                    className="bg-transparent outline-none dark:text-black"
                 />
             </form>
             ;
