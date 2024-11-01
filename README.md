@@ -111,3 +111,5 @@ Professional skills	Expected:
 4. Contribute to team cohesion
 5. Evaluate colleagues generously but fairly
 Exceeding: Active and engaged and supportive and asking for and giving help...
+
+🌮
