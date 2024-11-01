@@ -63,6 +63,7 @@ export default async function Page({
                 sql += ` AND city = ANY($2::int[])`;
             } else {
                 sql += ` WHERE city = ANY($1::int[])`;
+                hasInjectedWhere = true
             }
             queryParams.push(locationIds);
         }
@@ -70,14 +71,17 @@ export default async function Page({
         if (resolvedSearch.query != null) {
             if (!hasInjectedWhere) {
                 sql += ` WHERE `;
+            } else {
+                sql += ` AND `;
             }
 
-            sql += ` lower(name) LIKE $${queryParams.length + 1}`;
+            sql += `lower(name) LIKE $${queryParams.length + 1}`;
             queryParams.push(`%${resolvedSearch.query.toLowerCase()}%`);
         }
 
         sql += ` GROUP BY business.id`;
 
+        console.log(sql);
         const searchRes = await db().query(sql, queryParams);
 
         const locations = await db().query<{
