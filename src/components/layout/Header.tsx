@@ -5,8 +5,6 @@ import MobileMenu from "./MobileMenu";
 import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { redirect, useSearchParams } from "next/navigation";
 import { FaPerson } from "react-icons/fa6";
-import { IoBusiness } from "react-icons/io5";
-import { AiOutlineRobot } from "react-icons/ai";
 
 export function Search() {
     const searchParams = useSearchParams();
