@@ -9,7 +9,7 @@ export default async function Home() {
         return { key: business.id.toString(), location: { lat: business.latitude, lng: business.longitude } };
     });
     return (
-        <div className="grid grid-rows-[0px_1fr_0px] left-0 p-0 m-0 min-h-screen">
+        <div className="grid grid-rows-[0px_1fr_0px] left-0 p-0 -m-10 min-h-screen">
             <Maps>{poi && <PoiMarkers pois={poi} />}</Maps>
             <main></main>
         </div>
