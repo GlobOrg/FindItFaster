@@ -72,7 +72,7 @@ export default async function Page({
                 sql += ` WHERE `;
             }
 
-            sql += `lower(name) LIKE $${queryParams.length + 1}`;
+            sql += ` lower(name) LIKE $${queryParams.length + 1}`;
             queryParams.push(`%${resolvedSearch.query.toLowerCase()}%`);
         }
 
