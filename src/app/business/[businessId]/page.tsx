@@ -61,7 +61,9 @@ export default async function businessPage({params}: { params: Promise<{ busines
                  review.comment,
                  review.review
           FROM biz_reviews review
-                   INNER JOIN biz_users usr ON review.user_id = usr.id`);
+                   INNER JOIN biz_users usr ON review.user_id = usr.id
+                   INNER JOIN biz_businesses ON review.business = biz_businesses.id
+          WHERE biz_businesses.id = $1`, [businessId]);
 
     const commentsMap: Array<Promise<Comment>> = res.rows.map(async result => {
         const comment: Comment = {
